@@ -33,8 +33,8 @@ body {
 
 .center-logo-image {
   display: block;
-  width: 68%;
-  height: 68%;
+  width: 54%;
+  height: 54%;
   object-fit: contain;
   flex: none;
   user-select: none;
@@ -102,35 +102,12 @@ button:focus-visible {
   position: absolute;
 }
 
-.orbit {
-  top: 50%;
-  left: 50%;
-  z-index: 1;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  transition: width 300ms ease, height 300ms ease, border-color 200ms;
-}
-
-.orbit-outer {
-  width: 65%;
-  height: 65%;
-}
-
-.orbit-inner {
-  width: 43%;
-  height: 43%;
-  border-style: dashed;
-  border-color: #49392c;
-}
-
 .radial-center {
   top: 50%;
   left: 50%;
   z-index: 3;
-  width: 27%;
-  height: 27%;
+  width: 36%;
+  height: 36%;
   transform: translate(-50%, -50%);
 }
 
@@ -169,6 +146,16 @@ button:focus-visible {
   color: var(--orange);
 }
 
+.center-compact {
+  justify-content: flex-start;
+  padding-top: 10%;
+  gap: 2px;
+}
+
+.center-compact .center-back {
+  font-size: 22px;
+}
+
 .center-back {
   color: var(--orange);
   font-size: clamp(25px, 6vw, 34px);
@@ -183,84 +170,118 @@ button:focus-visible {
   line-height: 1.3;
 }
 
-.radial-item {
+.radial-svg {
+  inset: 0;
   z-index: 2;
-  width: 23%;
-  height: 23%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  padding: 4px;
-  border: 1px solid #3c352d;
-  border-radius: 50%;
-  background: var(--circle);
-  color: #e8dfd6;
-  cursor: pointer;
-  opacity: 0;
-  transform: translate(-50%, -50%) scale(0.55);
-  animation: item-enter 360ms cubic-bezier(.2, .8, .2, 1) forwards;
-  transition:
-    background 180ms,
-    border-color 180ms,
-    color 180ms,
-    box-shadow 180ms,
-    transform 180ms;
-  -webkit-app-region: no-drag;
-}
-
-.radial-item:hover,
-.radial-item.is-selected {
-  border-color: var(--orange);
-  background: #302219;
-  color: white;
-  box-shadow: 0 0 22px #ff87371b;
-  transform: translate(-50%, -50%) scale(1.06);
-}
-
-.radial-item.is-selected::after {
-  position: absolute;
-  inset: -5px;
-  border: 1px solid #ff87374d;
-  border-radius: 50%;
-  content: "";
+  width: 100%;
+  height: 100%;
+  overflow: visible;
   pointer-events: none;
 }
 
-.item-icon {
-  font-size: clamp(20px, 5vw, 27px);
-  line-height: 1;
+.ring-band {
+  fill: none;
+  stroke: #ff87370f;
 }
 
-.item-label {
-  max-width: 95%;
-  color: inherit;
-  font-size: clamp(9px, 2.1vw, 12px);
+.ring-edge {
+  fill: none;
+  stroke-width: 2;
+}
+
+.petal {
+  pointer-events: all;
+  cursor: pointer;
+  outline: none;
+  filter: drop-shadow(0 5px 7px #0000006b);
+  animation: petal-enter 360ms cubic-bezier(.2, .8, .2, 1) both;
+  transform-origin: 500px 500px;
+  -webkit-app-region: no-drag;
+}
+
+.petal-base {
+  fill: url(#tg-petal);
+  stroke: #62503f;
+  stroke-width: 1.5;
+  transition: stroke 180ms;
+}
+
+.petal-glow {
+  fill: url(#tg-glow);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms;
+}
+
+.petal:hover .petal-base,
+.petal:focus-visible .petal-base {
+  stroke: var(--orange);
+}
+
+.petal:hover .petal-glow {
+  opacity: .2;
+}
+
+.petal:focus-visible .petal-glow {
+  opacity: .28;
+}
+
+.petal.is-selected .petal-base {
+  stroke: #ffb27a;
+}
+
+.petal.is-selected .petal-glow {
+  opacity: 1;
+}
+
+.petal-icon,
+.petal-label {
+  fill: #e8dfd6;
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+  transition: fill 180ms;
+}
+
+.petal-icon {
+  font-size: 52px;
+}
+
+.petal-label {
+  font-size: 22px;
   font-weight: 500;
-  text-align: center;
-  overflow-wrap: anywhere;
+}
+
+.petal:hover .petal-icon,
+.petal:hover .petal-label,
+.petal.is-selected .petal-icon,
+.petal.is-selected .petal-label {
+  fill: #fff;
+}
+
+.petal.is-selected .petal-label {
+  font-weight: 700;
 }
 
 .radial-status {
   top: 50%;
   left: 50%;
-  z-index: 1;
-  width: 36%;
+  z-index: 4;
+  width: 26%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   text-align: center;
   opacity: 0;
   pointer-events: none;
-  transform: translate(-50%, 60px);
+  transform: translate(-50%, -12px);
   transition: opacity 200ms, transform 250ms;
 }
 
 .radial-status.status-visible {
   opacity: 1;
-  transform: translate(-50%, 72px);
+  transform: translate(-50%, -22px);
 }
 
 .status-title {
@@ -273,13 +294,6 @@ button:focus-visible {
   color: #a99b8e;
   font-size: 9px;
   line-height: 1.4;
-}
-
-.status-hint {
-  color: #74685d;
-  font-family: "Consolas", monospace;
-  font-size: 8px;
-  letter-spacing: 1px;
 }
 
 .status-action {
@@ -305,7 +319,7 @@ button:focus-visible {
 }
 
 .status-message {
-  max-width: 180px;
+  max-width: 110px;
   color: #e0b48e;
   font-size: 9px;
   line-height: 1.4;
@@ -350,7 +364,7 @@ button:focus-visible {
 }
 
 .drop-hint {
-  bottom: 3%;
+  bottom: 1.5%;
   left: 50%;
   color: #776b5f;
   font-family: "Consolas", monospace;
@@ -365,15 +379,15 @@ button:focus-visible {
   color: var(--orange);
 }
 
-@keyframes item-enter {
+@keyframes petal-enter {
   from {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(.55);
+    transform: scale(.88);
   }
 
   to {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    transform: scale(1);
   }
 }
 
@@ -384,4 +398,108 @@ button:focus-visible {
     animation-duration: .01ms !important;
     transition-duration: .01ms !important;
   }
+}
+
+.center-button > .lucide {
+  flex-shrink: 0;
+}
+
+.center-button > .center-logo-image {
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.center-has-file {
+  border-color: #ff8737;
+  box-shadow:
+    0 0 24px #ff873726,
+    inset 0 0 14px #ff87370a;
+}
+
+.center-has-file > svg {
+  width: 42%;
+  height: 42%;
+  flex-shrink: 0;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+  animation: file-icon-appear 220ms ease-out;
+}
+
+@keyframes file-icon-appear {
+  from {
+    opacity: 0;
+    transform: scale(0.78);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+/* Mantém o centro alinhado em todas as páginas e submenus */
+.radial-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+}
+
+/* O ícone do arquivo fica centralizado no botão */
+.center-button.center-has-file {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 0;
+}
+
+.center-button.center-has-file > svg {
+  display: block;
+  width: 42%;
+  height: 42%;
+  flex-shrink: 0;
+  margin: 0;
+}
+
+
+.center-back-small {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid #5b422f;
+  border-radius: 50%;
+  background: #211b17;
+  color: #ff8737;
+  cursor: pointer;
+  z-index: 10;
+  -webkit-app-region: no-drag;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.center-back-small:hover {
+  background: #352319;
+  border-color: #ff8737;
+  transform: translateX(-2px);
+}
+
+.center-back-small:focus-visible {
+  outline: 2px solid #ff8737;
+  outline-offset: 2px;
 }
